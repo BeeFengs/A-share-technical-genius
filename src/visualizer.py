@@ -36,7 +36,9 @@ class TechnicalVisualizer:
                 high=df['high'],
                 low=df['low'],
                 close=df['close'],
-                name='K线'
+                name='K线',
+                increasing_line_color='red',  # 阳线为红色
+                decreasing_line_color='green'  # 阴线为绿色
             ),
             row=1, col=1
         )
@@ -71,23 +73,55 @@ class TechnicalVisualizer:
         )
 
         # 添加MACD
+        # 先绘制DIF和DEA线
         fig.add_trace(
-            go.Bar(
-                x=df['trade_date'],
-                y=df['macd'],
-                name='MACD柱',
-                marker_color=df['macd'].apply(lambda x: 'red' if x > 0 else 'green')
+            go.Scatter(
+                x=df['trade_date'], 
+                y=df['macd_dif'], 
+                name='DIF',
+                line=dict(color='blue'),
+                showlegend=True
             ),
             row=2, col=1
         )
         fig.add_trace(
-            go.Scatter(x=df['trade_date'], y=df['macd_dif'], name='DIF',
-                      line=dict(color='blue')),
+            go.Scatter(
+                x=df['trade_date'], 
+                y=df['macd_dea'], 
+                name='DEA',
+                line=dict(color='orange'),
+                showlegend=True
+            ),
             row=2, col=1
         )
+
+        # 分别创建正值和负值的MACD柱状图
+        positive_macd = df['macd'].copy()
+        negative_macd = df['macd'].copy()
+        positive_macd[positive_macd <= 0] = None
+        negative_macd[negative_macd > 0] = None
+
+        # 添加红色的正值MACD柱
         fig.add_trace(
-            go.Scatter(x=df['trade_date'], y=df['macd_dea'], name='DEA',
-                      line=dict(color='orange')),
+            go.Bar(
+                x=df['trade_date'],
+                y=positive_macd,
+                name='MACD',
+                marker_color='red',
+                showlegend=True
+            ),
+            row=2, col=1
+        )
+
+        # 添加绿色的负值MACD柱
+        fig.add_trace(
+            go.Bar(
+                x=df['trade_date'],
+                y=negative_macd,
+                name='MACD',
+                marker_color='green',
+                showlegend=False  # 不显示第二个MACD图例
+            ),
             row=2, col=1
         )
 
@@ -131,7 +165,30 @@ class TechnicalVisualizer:
             xaxis_title='日期',
             height=1200,
             showlegend=True,
-            template='plotly_white'
+            template='plotly_white',
+            barmode='overlay',  # 确保柱状图可以叠加
+            bargap=0,  # 移除柱状图间距
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.02,
+                xanchor="right",
+                x=1
+            )
+        )
+
+        # 调整MACD子图的y轴范围
+        y_max = max(df['macd'].max(), df['macd_dif'].max(), df['macd_dea'].max())
+        y_min = min(df['macd'].min(), df['macd_dif'].min(), df['macd_dea'].min())
+        margin = (y_max - y_min) * 0.1
+        fig.update_yaxes(range=[y_min - margin, y_max + margin], row=2, col=1)
+
+        # 确保MACD柱状图显示完整
+        fig.update_traces(
+            selector=dict(type='bar'),
+            width=1,  # 调整柱状图宽度为最大
+            opacity=0.8,  # 设置透明度
+            row=2, col=1
         )
 
         # 添加RSI参考线
