@@ -24,7 +24,7 @@ class TechnicalVisualizer:
             rows=4, cols=1,
             shared_xaxes=True,
             vertical_spacing=0.05,
-            subplot_titles=('K线图 & BOLL', 'MACD', 'KDJ', 'RSI'),
+            subplot_titles=('K线图 & BOLL & MA', 'MACD', 'KDJ', 'RSI'),
             row_heights=[0.4, 0.2, 0.2, 0.2]
         )
 
@@ -42,6 +42,39 @@ class TechnicalVisualizer:
             ),
             row=1, col=1
         )
+
+        # 添加MA均线系统
+        ma_colors = {
+            'ma_qfq_5': '#FF9900',    # 橙色
+            'ma_qfq_10': '#0066CC',   # 蓝色
+            'ma_qfq_20': '#9933CC',   # 紫色
+            'ma_qfq_30': '#FF3366',   # 粉红
+            'ma_qfq_60': '#666666',   # 深灰
+            'ma_qfq_90': '#003366',   # 深蓝
+            'ma_qfq_250': '#333333'   # 黑色
+        }
+        
+        ma_names = {
+            'ma_qfq_5': 'MA5',
+            'ma_qfq_10': 'MA10',
+            'ma_qfq_20': 'MA20',
+            'ma_qfq_30': 'MA30',
+            'ma_qfq_60': 'MA60',
+            'ma_qfq_90': 'MA90',
+            'ma_qfq_250': 'MA250'
+        }
+
+        for ma_col, color in ma_colors.items():
+            if ma_col in df.columns:  # 确保数据列存在
+                fig.add_trace(
+                    go.Scatter(
+                        x=df['trade_date'],
+                        y=df[ma_col],
+                        name=ma_names[ma_col],
+                        line=dict(color=color, width=1)
+                    ),
+                    row=1, col=1
+                )
 
         # 添加BOLL线
         fig.add_trace(

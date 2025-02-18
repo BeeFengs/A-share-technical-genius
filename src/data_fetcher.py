@@ -55,7 +55,7 @@ class TushareDataFetcher:
                 ts_code=ts_code,
                 start_date=start_date,
                 end_date=end_date,
-                fields='ts_code,trade_date,ma_hfq_5,ma_hfq_10,ma_hfq_20,ma_hfq_30,ma_hfq_60,ma_hfq_90,ma_hfq_250'
+                fields='ts_code,trade_date,ma_qfq_5,ma_qfq_10,ma_qfq_20,ma_qfq_30,ma_qfq_60,ma_qfq_90,ma_qfq_250'
             )
             
             if df_factor is None or df_factor.empty:
