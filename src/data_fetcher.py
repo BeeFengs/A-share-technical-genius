@@ -50,12 +50,25 @@ class TushareDataFetcher:
                 fields='ts_code,trade_date,macd_dif,macd_dea,macd,kdj_k,kdj_d,kdj_j,rsi_6,rsi_12,rsi_24,boll_upper,boll_mid,boll_lower'
             )
             
+            # 获取MA均线数据
+            df_ma = self.pro.stk_factor_pro(
+                ts_code=ts_code,
+                start_date=start_date,
+                end_date=end_date,
+                fields='ts_code,trade_date,ma_hfq_5,ma_hfq_10,ma_hfq_20,ma_hfq_30,ma_hfq_60,ma_hfq_90,ma_hfq_250'
+            )
+            
             if df_factor is None or df_factor.empty:
                 print("获取技术指标数据失败")
                 return None
                 
-            # 合并数据
+            if df_ma is None or df_ma.empty:
+                print("获取MA均线数据失败")
+                return None
+                
+            # 合并所有数据
             df = pd.merge(df_daily, df_factor, on=['ts_code', 'trade_date'], how='left')
+            df = pd.merge(df, df_ma, on=['ts_code', 'trade_date'], how='left')
             
             # 按日期升序排序
             df = df.sort_values('trade_date')
