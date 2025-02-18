@@ -3,9 +3,9 @@
 """
 import os
 from dotenv import load_dotenv
-from data_fetcher import TushareDataFetcher
-from visualizer import TechnicalVisualizer
-from report_generator import ReportGenerator
+from src.data_fetcher import TushareDataFetcher
+from src.visualizer import TechnicalVisualizer
+from src.report_generator import ReportGenerator
 from datetime import datetime, timedelta
 import calendar
 

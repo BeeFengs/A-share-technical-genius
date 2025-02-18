@@ -8,8 +8,12 @@ src/__init__.py
 src/data_fetcher.py
 src/main.py
 src/report_generator.py
+src/test_tushare.py
 src/visualizer.py
-tests/__init__.py
-tests/test_data_fetcher.py
-tests/test_main.py
-tests/test_visualizer.py
+src/prompts/__init__.py
+src/prompts/technical_analysis.py
+src/prompts/indicators/__init__.py
+src/prompts/indicators/boll.py
+src/prompts/indicators/kdj.py
+src/prompts/indicators/macd.py
+src/prompts/indicators/rsi.py
