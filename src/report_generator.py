@@ -121,6 +121,11 @@ class ReportGenerator:
                 dif=analysis['MACD']['DIF'],
                 dea=analysis['MACD']['DEA'],
                 macd=analysis['MACD']['MACD'],
+                long_term_trend=analysis['MACD']['long_term_trend'],
+                medium_term_trend=analysis['MACD']['medium_term_trend'],
+                short_term_signal=analysis['MACD']['short_term_signal'],
+                divergence=analysis['MACD']['divergence'],
+                strength=analysis['MACD']['strength'],
                 signal=analysis['MACD']['signal']
             ),
             'KDJ': lambda: get_kdj_analysis_prompt(
