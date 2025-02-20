@@ -69,6 +69,12 @@ def get_technical_analysis_prompt(stock_name: str, latest_price: float, price_ch
         upper=analysis['BOLL']['UPPER'],
         mid=analysis['BOLL']['MID'],
         lower=analysis['BOLL']['LOWER'],
+        long_term_trend=analysis['BOLL']['long_term_trend'],
+        medium_term_trend=analysis['BOLL']['medium_term_trend'],
+        short_term_signal=analysis['BOLL']['short_term_signal'],
+        bandwidth=analysis['BOLL']['bandwidth'],
+        pattern=analysis['BOLL']['pattern'],
+        strength=analysis['BOLL']['strength'],
         signal=analysis['BOLL']['signal']
     )
     
