@@ -56,6 +56,12 @@ def get_technical_analysis_prompt(stock_name: str, latest_price: float, price_ch
         rsi6=analysis['RSI']['RSI6'],
         rsi12=analysis['RSI']['RSI12'],
         rsi24=analysis['RSI']['RSI24'],
+        long_term_trend=analysis['RSI']['long_term_trend'],
+        medium_term_trend=analysis['RSI']['medium_term_trend'],
+        short_term_signal=analysis['RSI']['short_term_signal'],
+        divergence=analysis['RSI']['divergence'],
+        strength=analysis['RSI']['strength'],
+        pattern=analysis['RSI']['pattern'],
         signal=analysis['RSI']['signal']
     )
     
