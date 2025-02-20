@@ -40,7 +40,16 @@ def get_technical_analysis_prompt(stock_name: str, latest_price: float, price_ch
         k_value=analysis['KDJ']['K'],
         d_value=analysis['KDJ']['D'],
         j_value=analysis['KDJ']['J'],
-        signal=analysis['KDJ']['signal']
+        analysis_result={
+            'long_term_trend': analysis['KDJ']['long_term_trend'],
+            'medium_term_trend': analysis['KDJ']['medium_term_trend'],
+            'short_term_trend': analysis['KDJ']['short_term_trend'],
+            'cross_pattern': analysis['KDJ']['cross_pattern'],
+            'divergence': analysis['KDJ']['divergence'],
+            'strength': analysis['KDJ']['strength'],
+            'pattern': analysis['KDJ']['pattern'],
+            'signal': analysis['KDJ']['signal']
+        }
     )
     
     rsi_prompt = get_rsi_analysis_prompt(
