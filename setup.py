@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="share_content_matrix",
+    name="share_content_matrix-2",
     version="0.1",
     packages=find_packages(),
     install_requires=[

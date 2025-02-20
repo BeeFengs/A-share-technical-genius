@@ -80,25 +80,25 @@ def _analyze_kdj_trend(data: pd.DataFrame, timeframe: str) -> str:
     # 判断超买超卖
     if latest['kdj_j'] > 100:
         strength = '强烈' if latest['kdj_j'] > 110 else '一般'
-        trend = f'{strength}超买'
+        trend = f'{strength}超买信号'
     elif latest['kdj_j'] < 0:
         strength = '强烈' if latest['kdj_j'] < -10 else '一般'
-        trend = f'{strength}超卖'
+        trend = f'{strength}超卖信号'
     elif latest['kdj_k'] > k_mean + k_std:
         if k_slope > 0 and d_slope > 0 and j_slope > 0:
-            trend = '强势上涨'
+            trend = '多头动能增强'
         else:
-            trend = '偏多'
+            trend = '多头信号'
     elif latest['kdj_k'] < k_mean - k_std:
         if k_slope < 0 and d_slope < 0 and j_slope < 0:
-            trend = '强势下跌'
+            trend = '空头动能增强'
         else:
-            trend = '偏空'
+            trend = '空头信号'
     else:
         if abs(k_slope) < 0.1 and abs(d_slope) < 0.1:
-            trend = '盘整'
+            trend = '盘整信号'
         else:
-            trend = '震荡'
+            trend = '震荡信号'
             
     return trend
 
