@@ -11,7 +11,8 @@ from src.prompts.indicators import (
     get_macd_analysis_prompt,
     get_kdj_analysis_prompt,
     get_rsi_analysis_prompt,
-    get_boll_analysis_prompt
+    get_boll_analysis_prompt,
+    get_ma_system_analysis_prompt
 )
 
 class ReportGenerator:
@@ -166,6 +167,18 @@ class ReportGenerator:
                 pattern=analysis['BOLL']['pattern'],
                 strength=analysis['BOLL']['strength'],
                 signal=analysis['BOLL']['signal']
+            ),
+            'MA': lambda: get_ma_system_analysis_prompt(
+                analysis_results={
+                    'ma_values': analysis['MA']['ma_values'],
+                    'long_term_trend': analysis['MA']['signals']['long_term_trend'],
+                    'medium_term_trend': analysis['MA']['signals']['medium_term_trend'],
+                    'short_term_signal': analysis['MA']['signals']['short_term_signal'],
+                    'formation': analysis['MA']['signals']['formation'],
+                    'strength': analysis['MA']['signals']['strength'],
+                    'support_resistance': analysis['MA']['signals']['support_resistance'],
+                    'signal': analysis['MA']['signals']['signal']
+                }
             )
         }
         

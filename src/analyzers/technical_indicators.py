@@ -8,6 +8,7 @@ from .indicators import analyze_macd
 from .indicators.kdj_analyzer import analyze_kdj
 from .indicators.rsi_analyzer import analyze_rsi
 from .indicators.boll_analyzer import analyze_boll
+from .indicators.ma_system_analyzer import analyze_ma_system
 
 def analyze_indicators(df: pd.DataFrame) -> Dict[str, Dict[str, Any]]:
     """
@@ -37,5 +38,8 @@ def analyze_indicators(df: pd.DataFrame) -> Dict[str, Dict[str, Any]]:
     
     # BOLL分析
     analysis['BOLL'] = analyze_boll(df, long_term, medium_term, short_term)
+    
+    # MA系统分析
+    analysis['MA'] = analyze_ma_system(df, long_term, medium_term, short_term)
     
     return analysis 

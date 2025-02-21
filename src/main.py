@@ -128,6 +128,27 @@ def main():
     print(f"\n综合判断:")
     print(f"  - {analysis['BOLL']['signal']}")
     
+    print("\nMA系统分析:")
+    print(f"均线数值:")
+    for ma_name, ma_value in analysis['MA']['ma_values'].items():
+        print(f"  - {ma_name}: {ma_value:.2f}")
+    print(f"\n趋势分析:")
+    print(f"  - 长期趋势: {analysis['MA']['signals']['long_term_trend']['trend']}")
+    print(f"  - 中期趋势: {analysis['MA']['signals']['medium_term_trend']['trend']}")
+    print(f"  - 短期信号: {analysis['MA']['signals']['short_term_signal']['summary']}")
+    print(f"\n形态分析:")
+    print(f"  - 形态类型: {analysis['MA']['signals']['formation']['type']}")
+    print(f"  - 形态强度: {analysis['MA']['signals']['formation']['strength']}")
+    print(f"  - 均线分散度: {analysis['MA']['signals']['formation']['dispersion']:.4f}")
+    print(f"\n支撑与阻力:")
+    if analysis['MA']['signals']['support_resistance']['nearest_support']:
+        print(f"  - 最近支撑: {analysis['MA']['signals']['support_resistance']['nearest_support']['value']:.2f}")
+    if analysis['MA']['signals']['support_resistance']['nearest_resistance']:
+        print(f"  - 最近阻力: {analysis['MA']['signals']['support_resistance']['nearest_resistance']['value']:.2f}")
+    print(f"\n系统强度与信号:")
+    print(f"  - 均线系统强度: {analysis['MA']['signals']['strength']['strength']}")
+    print(f"  - 综合研判信号: {analysis['MA']['signals']['signal']}")
+    
     # 绘制图表
     stock_name = stocks[stocks['ts_code'] == ts_code]['name'].values[0]
     visualizer = TechnicalVisualizer()
@@ -146,7 +167,7 @@ def main():
     report = report_generator.generate_report(stock_name, analysis, df)
     
     # 生成各个技术指标的独立报告
-    indicators = ['MACD', 'KDJ', 'RSI', 'BOLL']
+    indicators = ['MACD', 'KDJ', 'RSI', 'BOLL', 'MA']
     for indicator in indicators:
         print(f"\n正在生成{indicator}指标分析报告...")
         indicator_report = report_generator.generate_indicator_report(
