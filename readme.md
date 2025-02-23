@@ -1,107 +1,157 @@
-# 📈 慧眼识股：AI 股票数据分析，洞悉市场先机
+# 慧眼识股：基于AI的股票技术分析工具
 
-## ✨ 一句话项目简介
+## 项目简介
 
-**慧眼识股**：您的智能股票分析助手，利用 AI 解读 Tushare Pro 数据，助您轻松看懂股市，把握投资机遇。
+慧眼识股是一个专注于股票技术分析的Python工具，它结合了传统技术指标分析和现代AI技术，为投资者提供深入的市场洞察。目前主要提供股票的技术面分析报告，包括均线、MACD、KDJ等技术指标的智能解读。
 
-## 🚀 核心功能速览
+## 功能特点
 
-**三阶段迭代，步步为营，核心功能优先交付：**
+- **技术指标分析**：自动计算并解读MA、MACD、KDJ等核心技术指标
+- **AI辅助解读**：利用多个AI模型对技术指标进行智能解读
+- **自动报告生成**：生成包含详细分析的HTML格式报告
+- **数据可视化**：使用Plotly生成交互式K线和技术指标图表
 
-### 🎯 第一阶段：核心功能，快速上手 
+## 项目结构
 
-1.  **日线行情 AI 透视 (2 周)：**  MA、MACD、KDJ 等指标智能解读，量价关系深度分析，异常波动实时预警。
-2.  **财务报表 AI 解读 (2 周)：**  关键财务指标一目了然，行业对标分析，财务风险智能扫描。
+```
+.
+├── src/                    # 源代码目录
+│   ├── main.py            # 主程序入口
+│   ├── data_fetcher.py    # 数据获取模块
+│   ├── visualizer.py      # 数据可视化模块
+│   ├── report_generator.py # 报告生成模块
+│   ├── analyzers/         # 分析器模块
+│   │   ├── technical_indicators.py  # 技术指标分析器基类
+│   │   └── indicators/    # 具体指标分析器
+│   │       ├── ma_system_analyzer.py  # 均线系统分析
+│   │       ├── macd_analyzer.py       # MACD指标分析
+│   │       ├── kdj_analyzer.py        # KDJ指标分析
+│   │       ├── rsi_analyzer.py        # RSI指标分析
+│   │       └── boll_analyzer.py       # 布林带分析
+│   └── prompts/           # AI提示词模板
+│       ├── technical_analysis.py      # 技术分析主提示词
+│       └── indicators/    # 各指标的AI分析提示词
+│           ├── ma_system.py   # 均线系统分析提示词
+│           ├── macd.py        # MACD分析提示词
+│           ├── kdj.py         # KDJ分析提示词
+│           ├── rsi.py         # RSI分析提示词
+│           └── boll.py        # 布林带分析提示词
+├── data/                   # 数据存储目录
+├── analysis_reports/       # 分析报告输出目录
+├── requirements.txt        # 项目依赖
+└── .env                   # 环境变量配置
+```
 
+### 核心模块说明
 
-### 🌟 第二阶段：进阶功能，深度分析 
+#### 1. 分析器模块 (analyzers/)
+- **technical_indicators.py**: 定义了技术指标分析的基础类和接口
+- **indicators/**: 包含各个具体的技术指标分析器
+  - **ma_system_analyzer.py**: 实现了移动平均线系统（MA5/10/20/30/60）的分析逻辑
+  - **macd_analyzer.py**: 实现MACD指标的计算和分析
+  - **kdj_analyzer.py**: 实现KDJ随机指标的分析
+  - **rsi_analyzer.py**: 实现相对强弱指标(RSI)的分析
+  - **boll_analyzer.py**: 实现布林带指标的分析
 
-1.  **机构调研 AI 解码 (2 周)：**  洞悉机构关注动向，解析调研效果。
-2.  **概念板块 AI 联动 (2 周)：**  概念股智能聚类，板块联动关系深度挖掘。
+#### 2. AI提示词模块 (prompts/)
+- **technical_analysis.py**: 包含整体技术分析的AI提示模板
+- **indicators/**: 包含各个技术指标的专门AI分析提示词
+  - **ma_system.py**: 均线系统分析的AI提示词模板
+  - **macd.py**: MACD指标分析的AI提示词模板
+  - **kdj.py**: KDJ指标分析的AI提示词模板
+  - **rsi.py**: RSI指标分析的AI提示词模板
+  - **boll.py**: 布林带分析的AI提示词模板
 
-### 💡 第三阶段：扩展功能，无限可能 (持续迭代)
+#### 3. 其他核心模块
+- **data_fetcher.py**: 负责从Tushare获取股票数据
+- **visualizer.py**: 使用Plotly实现交互式图表绘制
+- **report_generator.py**: 生成markdown格式的分析报告
+- **main.py**: 程序主入口，协调各模块工作
 
-更多功能持续解锁，例如：个性化报告定制、实时异动推送等，敬请期待您的建议！
+## 环境要求
 
-**为何优先这些功能？**  我们聚焦用户最迫切的需求，让您快速体验核心价值，并逐步构建更强大的分析能力。
+- Python 3.8+
+- Tushare Pro API Token（需要在[Tushare Pro](https://tushare.pro/)注册获取）
+- Google AI Studio API Key（用于Gemini模型访问）
+  - 访问 [Google AI Studio](https://makersuite.google.com/app/apikey) 获取免费API密钥
+  - 每个账号每分钟可以进行60次免费调用
+  - 支持多语言分析，可以生成中文分析报告
 
-## 📊 数据维度全覆盖
+## 环境变量配置
 
-**慧眼识股**  覆盖股票市场多维度数据，为您构建全方位分析视角：
+在项目根目录创建 `.env` 文件，添加以下配置：
+```bash
+# Tushare API配置
+TUSHARE_TOKEN=你的Tushare_token
 
-### 🔍 基础数据
+# Google AI配置
+GOOGLE_API_KEY=你的Google_API_Key
+```
 
-股票列表筛选、股本结构分析、交易日历识别、股票更名影响、沪深股通追踪、公司基本面评估、管理层行为分析、新股 IPO 特征...
+## 依赖安装
 
-### 📈 行情数据
+```bash
+pip install -r requirements.txt
+```
 
-日/周/月线指标解读、复权数据对比、实时行情异动、量价关系分析、停复牌影响评估、港股通资金流向...
+主要依赖包：
+- tushare >= 1.2.89
+- pandas >= 1.3.0
+- numpy >= 1.21.0
+- matplotlib >= 3.4.0
+- plotly >= 5.3.0
+- python-dotenv >= 0.19.0
+- google-generativeai >= 0.3.0
 
-### 💰 财务数据
+## 快速开始
 
-财报智能解读、业绩预测分析、现金流评估、分红派息模式、财务指标异常检测、审计意见风险...
+1. 克隆项目到本地
+   ```bash
+   git clone https://github.com/your-username/share_content_matrix.git
+   cd share_content_matrix
+   ```
 
-### ✨ 特色数据
+2. 安装依赖
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-机构调研动向、股东人数变化、大宗交易识别、限售解禁预测、股东增减持分析、概念板块聚类...
+3. 配置环境变量
+   按照上述"环境变量配置"部分设置 `.env` 文件
 
-## 🛠️ 技术栈一览
+4. 运行分析
+   ```python
+   python src/main.py
+   ```
 
-- **数据源：** [Tushare Pro API](https://tushare.pro/) - 专业数据，稳定可靠
-- **数据处理：**  Python + Pandas - 高效处理，快速分析
-- **AI 模型：**  DeepSeek-R1, Gemini-2.0-Flash-Thinking, O1, kimi, claude, ... - 多模型驱动，智能精准
-- **可视化：**  Plotly + Echarts -  图表精美，交互友好
+5. 查看结果
+   分析报告将生成在 `analysis_reports` 目录下，以md格式保存
 
-## 🎯 核心价值
+## 示例报告
 
-**慧眼识股**  为您带来：
+目前已支持生成的分析报告包括：
+- technical_analysis_000002.SZ.html
+- technical_analysis_000007.SZ.html
 
-1.  **自动化报告：**  告别手动分析，一键生成专业报告
-2.  **异动预警：**  实时捕捉市场信号，快人一步
-3.  **投资提示：**  辅助决策，发现潜在机会
-4.  **风险评估：**  量化风险，心中有数
-5.  **趋势预测：**  洞察市场脉搏，把握方向
+## 开发计划
 
-## ⏳ 项目进展
+- [x] 基础技术指标分析
+- [x] AI智能解读
+- [x] HTML报告生成
+- [ ] 更多技术指标支持
+- [ ] 实时行情分析
+- [ ] 板块分析功能
 
-- [x]  **数据接口 ✅**
-- [ ]  **基础数据模块 ✅**
-- [ ]  **行情数据模块 ✅**
-- [ ]  **财务数据模块 ⏳**
-- [ ]  **特色数据模块 ⏳**
-- [ ]  **可视化系统 🚧**
-- [ ]  **报告生成 ✅**
+## 免责声明
 
-**状态：**  ✅ 完成  ⏳ 开发中  🚧 待启动
+本工具仅供学习和研究使用，不构成任何投资建议。投资者应对自己的投资行为负责。股市有风险，投资需谨慎。
 
-## 📖 快速上手
+## 联系方式
 
-1.  **注册 Tushare Pro 并获取 Token**
-2.  **安装 Python 环境 (建议 3.8+)**
-3.  **安装依赖 `pip install -r requirements.txt`**
-4.  **运行分析脚本**
-5.  **查看分析报告**
+- 邮箱：qishen_zhen@163.com
 
-## ⚠️  重要提示
+## 许可证
 
-- **仅供学习交流，不作为投资建议**
-- **股市有风险，投资需谨慎**
-- **数据模型定期更新，保证分析有效性**
-
-## 🤝 期待您的加入
-
-欢迎提交 Issue 和 Pull Request，共同完善 **慧眼识股**，让数据智能惠及更多投资者！
-
-## 📜  开源协议
-
-[MIT License](LICENSE)
-
-## 🙏  特别感谢
-
-[Tushare Pro](https://tushare.pro/)  数据支持
-
----
-
-**联系我们：**  qishen_zhen@163.com
+MIT License
 
 
