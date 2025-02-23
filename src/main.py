@@ -149,6 +149,23 @@ def main():
     print(f"  - 均线系统强度: {analysis['MA']['signals']['strength']['strength']}")
     print(f"  - 综合研判信号: {analysis['MA']['signals']['signal']}")
     
+    # 打印K线形态分析结果
+    print("\nK线形态分析:")
+    if analysis['Candlestick'].get('error'):
+        print(f"错误: {analysis['Candlestick']['error']}")
+    else:
+        # 打印识别到的形态
+        print("\n识别到的形态:")
+        if not analysis['Candlestick']['patterns']:
+            print("  - 未识别到明显的K线形态")
+        else:
+            for pattern in analysis['Candlestick']['patterns']:
+                print(f"  - {pattern['type']}: {pattern['pattern']}")
+        # 打印形态强度
+        print(f"\n形态强度: {analysis['Candlestick']['strength']}")
+        # 打印交易建议
+        print(f"交易建议: {analysis['Candlestick']['suggestion']}")
+    
     # 绘制图表
     stock_name = stocks[stocks['ts_code'] == ts_code]['name'].values[0]
     visualizer = TechnicalVisualizer()
