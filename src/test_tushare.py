@@ -7,40 +7,86 @@ import pandas as pd
 from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
+import signal
+from contextlib import contextmanager
+import time
 
-def test_tushare_api():
-    # 加载环境变量
-    load_dotenv()
-    
-    # 获取 token
-    token = os.getenv('TUSHARE_TOKEN')
-    if not token:
-        print("错误：未找到 TUSHARE_TOKEN 环境变量")
-        return
-    
-    # 设置 token
-    ts.set_token(token)
-    
-    # 初始化 pro 接口
-    pro = ts.pro_api()
+class TimeoutException(Exception):
+    pass
+
+@contextmanager
+def timeout(seconds):
+    def timeout_handler(signum, frame):
+        raise TimeoutException("操作超时")
+
+    # 设置信号处理器
+    original_handler = signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(seconds)
     
     try:
-        # 测试获取日线数据
-        print("\n1. 测试 daily 接口（以平安银行为例）：")
+        yield
+    finally:
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, original_handler)
+
+def test_tushare_api():
+    """测试Tushare API连接和数据获取"""
+    try:
+        # 加载环境变量
+        load_dotenv()
+        
+        # 获取 token
+        token = os.getenv('TUSHARE_TOKEN')
+        if not token:
+            print("错误：未找到 TUSHARE_TOKEN 环境变量")
+            print("请在 .env 文件中设置 TUSHARE_TOKEN=你的token")
+            return
+            
+        print(f"使用的 token: {token[:8]}...")  # 只显示前8位
+        
+        # 设置 token 并初始化 API
+        ts.set_token(token)
+        pro = ts.pro_api()
+        
+        # 测试基础连接
+        print("\n测试API连接...")
+        try:
+            with timeout(5):  # 设置5秒超时
+                start_time = time.time()
+                df_test = pro.query('stock_basic', limit=1)
+                end_time = time.time()
+                print(f"API连接成功！耗时: {end_time - start_time:.2f}秒")
+        except TimeoutException:
+            print("API连接超时（5秒）")
+            return
+        except Exception as e:
+            print(f"API连接测试失败: {str(e)}")
+            return
+        
+        # 设置测试参数
+        stock_code = '000001.SZ'  # 平安银行
         end_date = datetime.now().strftime('%Y%m%d')
-        start_date = (datetime.now() - timedelta(days=10)).strftime('%Y%m%d')
+        start_date = (datetime.now() - timedelta(days=5)).strftime('%Y%m%d')
         
-        df_daily = pro.daily(ts_code='000001.SZ', 
-                           start_date=start_date,
-                           end_date=end_date)
-        if df_daily is not None and not df_daily.empty:
-            print(f"成功获取从 {start_date} 到 {end_date} 的日线数据：")
-            print(df_daily.head())
-            print("\n日线数据列名：")
-            print(df_daily.columns.tolist())
-        else:
-            print("日线数据获取失败或为空")
+        print(f"\n1. 测试 daily 接口（以平安银行为例）：")
+        print(f"获取日期范围: {start_date} 到 {end_date}")
         
+        # 添加超时设置和错误处理
+        try:
+            with timeout(5):  # 设置5秒超时
+                df = pro.daily(ts_code=stock_code, 
+                             start_date=start_date,
+                             end_date=end_date)
+                
+                if df is not None and not df.empty:
+                    print("\n获取数据成功！数据预览：")
+                    print(df.head())
+                else:
+                    print("\n未获取到数据")
+        except TimeoutException:
+            print("获取数据超时（5秒）")
+            return
+            
         # 测试获取专业版因子数据
         print("\n2. 测试 stk_factor_pro 接口：")
         try:
@@ -77,8 +123,8 @@ def test_tushare_api():
         print("\nTushare API 测试完成！")
         
     except Exception as e:
-        print(f"\n错误：API 调用出现异常：{str(e)}")
-        print("请检查：")
+        print(f"\n发生错误: {str(e)}")
+        print("\n请检查：")
         print("1. Token 是否正确")
         print("2. 网络连接是否正常")
         print("3. 是否有对应的接口权限")

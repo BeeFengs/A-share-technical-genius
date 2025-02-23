@@ -26,18 +26,38 @@ class ReportGenerator:
         self.output_dir = output_dir
         self.current_report_dir = None  # 添加当前报告目录的引用
         load_dotenv()
-        genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
         
-        # 配置更高级的思维模型
-        self.model = genai.GenerativeModel(
-            'gemini-pro',
-            generation_config={
-                'temperature': 0.9,
-                'top_p': 0.9,
-                'top_k': 40,
-                'max_output_tokens': 8192,
-            }
-        )
+        # 创建 Gemini API client
+        api_key = os.getenv('GEMINI_API_KEY')
+        if not api_key:
+            raise ValueError("未找到 GEMINI_API_KEY 环境变量")
+            
+        # 初始化 Gemini client
+        genai.configure(api_key=api_key)
+        
+        try:
+            # 配置 Gemini 2.0 Flash Thinking 模型
+            self.model = genai.GenerativeModel(
+                model_name='gemini-2.0-flash-thinking-exp',  # 使用 Flash Thinking 实验性模型
+                generation_config={
+                    'temperature': 0.9,  # 保持较高的创造性
+                    'top_p': 0.9,
+                    'top_k': 40,
+                    'max_output_tokens': 8192,  # 允许生成更长的分析报告
+                }
+            )
+        except Exception as e:
+            print(f"警告：Flash Thinking 模型初始化失败，将使用默认模型: {str(e)}")
+            # 如果实验性模型不可用，回退到标准模型
+            self.model = genai.GenerativeModel(
+                model_name='gemini-pro',
+                generation_config={
+                    'temperature': 0.9,
+                    'top_p': 0.9,
+                    'top_k': 40,
+                    'max_output_tokens': 8192,
+                }
+            )
 
     def generate_report(self, stock_name: str, analysis: dict, df) -> Dict[str, str]:
         """
