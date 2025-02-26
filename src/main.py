@@ -19,7 +19,7 @@ def get_date_range(lookback_months=2):
         start_date: 开始日期 (YYYYMMDD)
         end_date: 结束日期 (YYYYMMDD)
     """
-    end_date = datetime.now()
+    end_date = datetime.now() - timedelta(days=1)
     
     # 计算起始日期（前N个月的1号）
     if end_date.month > lookback_months:

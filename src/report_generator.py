@@ -76,14 +76,19 @@ class ReportGenerator:
         price_change = df.iloc[-1]['pct_change']
         vol_change = ((df.iloc[-1]['vol'] - df.iloc[-2]['vol']) / df.iloc[-2]['vol']) * 100
         
+
         # 使用prompt模板生成提示信息
         prompt = get_technical_analysis_prompt(
             stock_name=stock_name,
             latest_price=latest_price,
             price_change=price_change,
             vol_change=vol_change,
+            df=df,
             analysis=analysis
         )
+
+        # 打印生成的提示信息
+        print(prompt)
 
         try:
             # 调用API生成报告
