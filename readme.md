@@ -6,7 +6,7 @@
 
 ## 功能特点
 
-- **技术指标分析**：自动计算并解读MA、MACD、KDJ等核心技术指标
+- **技术指标分析**：自动计算并解读K线形态、MA、MACD、KDJ、RSI、Boll带等核心技术指标
 - **AI辅助解读**：利用多个AI模型对技术指标进行智能解读
 - **自动报告生成**：生成包含详细分析的markdown格式报告
 - **数据可视化**：使用Plotly生成交互式K线和技术指标图表
@@ -27,7 +27,8 @@
 │   │       ├── macd_analyzer.py       # MACD指标分析
 │   │       ├── kdj_analyzer.py        # KDJ指标分析
 │   │       ├── rsi_analyzer.py        # RSI指标分析
-│   │       └── boll_analyzer.py       # 布林带分析
+│   │       ├── boll_analyzer.py       # 布林带分析
+│   │       └── candlestick_analyzer.py # K线图分析
 │   └── prompts/           # AI提示词模板
 │       ├── technical_analysis.py      # 技术分析主提示词
 │       └── indicators/    # 各指标的AI分析提示词
@@ -35,7 +36,8 @@
 │           ├── macd.py        # MACD分析提示词
 │           ├── kdj.py         # KDJ分析提示词
 │           ├── rsi.py         # RSI分析提示词
-│           └── boll.py        # 布林带分析提示词
+│           ├── boll.py        # 布林带分析提示词
+│           └── candlestick.py  # K线图分析提示词
 ├── data/                   # 数据存储目录
 ├── analysis_reports/       # 分析报告输出目录
 ├── requirements.txt        # 项目依赖
@@ -52,6 +54,7 @@
   - **kdj_analyzer.py**: 实现KDJ随机指标的分析
   - **rsi_analyzer.py**: 实现相对强弱指标(RSI)的分析
   - **boll_analyzer.py**: 实现布林带指标的分析
+  - **candlestick_analyzer.py**: 实现K线图的分析
 
 #### 2. AI提示词模块 (prompts/)
 - **technical_analysis.py**: 包含整体技术分析的AI提示模板
@@ -61,6 +64,7 @@
   - **kdj.py**: KDJ指标分析的AI提示词模板
   - **rsi.py**: RSI指标分析的AI提示词模板
   - **boll.py**: 布林带分析的AI提示词模板
+  - **candlestick.py**: K线图分析的AI提示词模板
 
 #### 3. 其他核心模块
 - **data_fetcher.py**: 负责从Tushare获取股票数据
