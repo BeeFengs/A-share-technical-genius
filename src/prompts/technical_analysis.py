@@ -46,7 +46,17 @@ def get_technical_analysis_prompt(stock_name: str, latest_price: float, price_ch
 {analysis.get('Candlestick', '无数据')}  
 
 ## 2. MA系统分析
-{analysis.get('MA', '无数据')}  
+
+- 长期趋势: {analysis.get('MA', {}).get('long_term_trend', {}).get('trend', '无数据')}
+- 中期趋势: {analysis.get('MA', {}).get('medium_term_trend', {}).get('trend', '无数据')}
+- 短期信号: {analysis.get('MA', {}).get('short_term_signal', {}).get('summary', '无数据')}
+- 形态类型: {analysis.get('MA', {}).get('formation', {}).get('type', '无数据')}
+- 形态强度: {analysis.get('MA', {}).get('formation', {}).get('strength', '无数据')}
+- 均线分散度: {analysis.get('MA', {}).get('formation', {}).get('dispersion', '无数据'):.4f}
+- 最近支撑: {analysis.get('MA', {}).get('support_resistance', {}).get('nearest_support', {}).get('value', '无数据'):.2f}
+- 最近阻力: {analysis.get('MA', {}).get('support_resistance', {}).get('nearest_resistance', {}).get('value', '无数据'):.2f}
+- 均线系统强度: {analysis.get('MA', {}).get('strength', {}).get('strength', '无数据')}
+- **综合研判信号**: {analysis.get('MA', {}).get('signal', '无数据')}
 
 ## 3. MACD分析
 {analysis.get('MACD', '无数据')}  

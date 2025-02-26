@@ -61,17 +61,15 @@ def analyze_ma_system(df: pd.DataFrame,
     
     # 返回完整的分析结果
     return {
-        'ma_values': {col: latest[col] for col in ma_columns},
-        'signals': {
-            'long_term_trend': long_term_trend,
-            'medium_term_trend': medium_term_trend,
-            'short_term_signal': short_term_signal,
-            'formation': formation,
-            'strength': strength,
-            'support_resistance': support_resistance,
-            'signal': signal
-        }
+        'long_term_trend': long_term_trend,
+        'medium_term_trend': medium_term_trend,
+        'short_term_signal': short_term_signal,
+        'formation': formation,
+        'strength': strength,
+        'support_resistance': support_resistance,
+        'signal': signal
     }
+    
 
 def _analyze_long_term_trend(data: pd.DataFrame, ma_columns: list) -> Dict[str, Any]:
     """
