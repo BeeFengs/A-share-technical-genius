@@ -78,8 +78,7 @@
 - Tushare Pro API Token（需要在[Tushare Pro](https://tushare.pro/)注册获取）
 - Google AI Studio API Key（用于Gemini模型访问）
   - 访问 [Google AI Studio](https://makersuite.google.com/app/apikey) 获取免费API密钥
-  - 每个账号每分钟可以进行60次免费调用
-  - 支持多语言分析，可以生成中文分析报告
+- 但是测试是使用deepseek来进行测试的
 
 ## 环境变量配置
 
