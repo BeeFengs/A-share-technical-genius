@@ -6,10 +6,14 @@ import tushare as ts
 from dotenv import load_dotenv
 import pandas as pd
 
+
+
 class TushareDataFetcher:
     def __init__(self):
         load_dotenv()
         token = os.getenv('TUSHARE_TOKEN')
+
+        print(f"Tushare Token: {token}")
         if not token:
             raise ValueError("请在.env文件中设置TUSHARE_TOKEN")
         
@@ -39,6 +43,8 @@ class TushareDataFetcher:
             )
             
             if df_daily is None or df_daily.empty:
+                
+
                 print("获取日线数据失败")
                 return None
             
@@ -79,6 +85,8 @@ class TushareDataFetcher:
             return df
             
         except Exception as e:
+            #打印失败原因
+
             print(f"获取数据失败: {str(e)}")
             return None
 

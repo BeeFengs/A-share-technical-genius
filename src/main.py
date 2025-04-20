@@ -1,6 +1,10 @@
 """
 主程序入口 - 技术指标分析程序
 """
+import sys
+print(sys.path)
+
+
 import os
 from dotenv import load_dotenv
 from src.data_fetcher import TushareDataFetcher
@@ -9,6 +13,7 @@ from src.report_generator import ReportGenerator
 from src.analyzers import analyze_indicators
 from datetime import datetime, timedelta
 import calendar
+import loguru
 
 def get_date_range(lookback_months=2):
     """
